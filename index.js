@@ -4,7 +4,7 @@ const axios = require('axios');
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-const FLICKR_API_URL = 'https://api.flickr.com/services/feeds/photos_public.gne';
+const FLICKR_API_URL = 'https://api.flickr.com/services/feeds/photos_public.gne?format=json';
 
 app.get('/api/images', async (req, res) => {
     try {
