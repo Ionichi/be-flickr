@@ -18,8 +18,23 @@ app.get('/api/images', async (req, res) => {
         const response = await axios.get(FLICKR_API_URL)
             .then(data => {
                 function jsonFlickrFeed(data) {
-                    res.json(data);
+                    const allData = data.items;
+                    const perPage = 10;
+                    const page = ((parseInt(req.query.page)) < 1 ? 1 : parseInt(req.query.page)) || 1;
+                    const startIndex = (page - 1) * perPage;
+                    const endIndex = page * perPage;
+                    const paginatedData = allData.slice(startIndex, endIndex);
+
+                    const updatedData = {
+                        items: paginatedData,
+                        total_data: allData.length,
+                        total_page: Math.ceil(allData.length / perPage),
+                        currentPage: page,
+                    };
+
+                    res.json(updatedData);
                 }
+
                 eval(data.data);
             });
     } catch (error) {
